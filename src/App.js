@@ -1,4 +1,4 @@
-import { withAuthenticator } from '@aws-amplify/ui-react'
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 /* src/App.js */
 import React, { useEffect, useState } from 'react'
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
@@ -66,6 +66,7 @@ const App = () => {
           </div>
         ))
       }
+    <AmplifySignOut />
     </div>
   )
 }

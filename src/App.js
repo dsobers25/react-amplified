@@ -2,7 +2,7 @@ import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 /* src/App.js */
 import React, { useEffect, useState } from 'react'
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
-import { createTodo } from './graphql/mutations'
+import { createTodo, updateTodo } from './graphql/mutations'
 import { listTodos } from './graphql/queries'
 
 import awsExports from "./aws-exports";
@@ -42,6 +42,18 @@ const App = () => {
     }
   }
 
+  async function updateTodo() {
+    try {
+      if (!formState.name || !formState.description) return
+      const todo = { ...formState }
+      setTodos([...todos, todo])
+      setFormState(initialState)
+      await API.graphql(graphqlOperation(updateTodo, {input: todo}))
+    } catch (err) {
+      console.log('error creating todo:', err)
+    }
+  }
+
   return (
     <div style={styles.container}>
       <h2>Deron's Amplify Todos</h2>
@@ -58,6 +70,7 @@ const App = () => {
         placeholder="Description"
       />
       <button style={styles.button} onClick={addTodo}>Create Todo</button>
+      <p>I will prevail</p>
       {
         todos.map((todo, index) => (
           <div key={todo.id ? todo.id : index} style={styles.todo}>
